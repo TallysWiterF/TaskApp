@@ -13,7 +13,7 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int nivel = 0;
-
+  int nivelMaestria = 0;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,7 +22,8 @@ class _TaskState extends State<Task> {
         children: [
           Container(
             decoration: BoxDecoration(
-                color: Colors.blue, borderRadius: BorderRadius.circular(4)),
+                color: getMaestriaColor(nivelMaestria),
+                borderRadius: BorderRadius.circular(4)),
             height: 140,
           ),
           Column(
@@ -74,6 +75,12 @@ class _TaskState extends State<Task> {
                             onPressed: () {
                               setState(() {
                                 nivel++;
+                                if ((widget.dificuldade > 0 &&
+                                        nivel > widget.dificuldade * 10) ||
+                                    nivel > 10) {
+                                  nivelMaestria++;
+                                  nivel = 0;
+                                }
                               });
                             },
                             child: const Column(
@@ -107,10 +114,9 @@ class _TaskState extends State<Task> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Text(
-                      "Nível: $nivel",
-                      style: const TextStyle(color: Colors.white, fontSize: 17),
-                    ),
+                    child: Text("Nível: $nivel",
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 17)),
                   ),
                 ],
               )
@@ -119,5 +125,24 @@ class _TaskState extends State<Task> {
         ],
       ),
     );
+  }
+}
+
+Color getMaestriaColor(int nivelMaestria) {
+  switch (nivelMaestria) {
+    case 0:
+      return Colors.blue;
+    case 1:
+      return Colors.green;
+    case 2:
+      return Colors.yellow;
+    case 3:
+      return Colors.orange;
+    case 4:
+      return Colors.red;
+    case 5:
+      return Colors.purple;
+    default:
+      return Colors.black;
   }
 }
