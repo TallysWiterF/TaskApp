@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_app/screens/form_screen.dart';
+import 'package:task_app/screens/initial_screen.dart';
 //import 'package:task_app/screens/initial_screen.dart';
 
 void main() {
@@ -17,6 +18,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           useMaterial3: false,
         ),
-        home: const FormScreen());
+        home: const InitialScreen());
   }
 }
