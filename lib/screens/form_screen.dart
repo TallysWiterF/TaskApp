@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:task_app/data/task_inherited.dart';
 
 class FormScreen extends StatefulWidget {
-  const FormScreen({Key? key, required this.taskContext});
-
+  const FormScreen({super.key, required this.taskContext});
   final BuildContext taskContext;
 
   @override
@@ -12,6 +11,10 @@ class FormScreen extends StatefulWidget {
 
 class _FormScreenState extends State<FormScreen> {
   final _formKey = GlobalKey<FormState>();
+
+  bool valueValidator(String? value) => value != null && value.isEmpty;
+  bool difficultyValidator(String? value) =>
+      valueValidator(value) && (int.parse(value!) > 5 || int.parse(value) < 1);
 
   TextEditingController nameController = TextEditingController();
   TextEditingController difficultyController = TextEditingController();
@@ -40,7 +43,7 @@ class _FormScreenState extends State<FormScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         validator: (String? value) {
-                          if (value!.isEmpty) {
+                          if (valueValidator(value)) {
                             return 'Insira o nome da Tarefa';
                           }
                           return null;
@@ -59,9 +62,7 @@ class _FormScreenState extends State<FormScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         validator: (value) {
-                          if (value!.isEmpty ||
-                              int.parse(value) > 5 ||
-                              int.parse(value) < 1) {
+                          if (difficultyValidator(value)) {
                             return 'Insira uma dificuldade entre 1 e 5';
                           }
                           return null;
@@ -83,7 +84,7 @@ class _FormScreenState extends State<FormScreen> {
                           setState(() {});
                         },
                         validator: (value) {
-                          if (value!.isEmpty) {
+                          if (valueValidator(value)) {
                             return 'Insira uma URL de Imagem!';
                           }
 
