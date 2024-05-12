@@ -15,8 +15,8 @@ class TaskInherited extends InheritedWidget {
     Task('Jogar', 'assets/images/jogar.jpg', 1),
   ];
 
-  void newTask(String name, String photo, int difficulty) =>
-      tasksList.add(Task(name, photo, difficulty));
+  void newTask(String name, String image, int difficulty) =>
+      tasksList.add(Task(name, image, difficulty));
 
   static TaskInherited? maybeOf(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<TaskInherited>();

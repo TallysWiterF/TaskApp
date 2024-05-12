@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:task_app/components/difficulty.dart';
 
 class Task extends StatefulWidget {
-  final String nome;
-  final String foto;
-  final int dificuldade;
-  Task(this.nome, this.foto, this.dificuldade, {super.key});
+  final String name;
+  final String image;
+  final int difficulty;
+  Task(this.name, this.image, this.difficulty, {super.key});
 
   int nivel = 0;
   int nivelMaestria = 0;
@@ -15,7 +15,7 @@ class Task extends StatefulWidget {
 }
 
 class _TaskState extends State<Task> {
-  bool isImageNetwork() => widget.foto.contains('http');
+  bool isImageNetwork() => widget.image.contains('http');
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +49,11 @@ class _TaskState extends State<Task> {
                           borderRadius: BorderRadius.circular(4),
                           child: isImageNetwork()
                               ? Image.network(
-                                  widget.foto,
+                                  widget.image,
                                   fit: BoxFit.cover,
                                 )
                               : Image.asset(
-                                  widget.foto,
+                                  widget.image,
                                   fit: BoxFit.cover,
                                 ),
                         ),
@@ -65,14 +65,14 @@ class _TaskState extends State<Task> {
                           SizedBox(
                             width: 200,
                             child: Text(
-                              widget.nome,
+                              widget.name,
                               style: const TextStyle(
                                   fontSize: 24,
                                   overflow: TextOverflow.ellipsis),
                             ),
                           ),
                           Difficulty(
-                            difficultyLevel: widget.dificuldade,
+                            difficultyLevel: widget.difficulty,
                           ),
                         ],
                       ),
@@ -83,8 +83,8 @@ class _TaskState extends State<Task> {
                             onPressed: () {
                               setState(() {
                                 widget.nivel++;
-                                if ((widget.dificuldade > 0 &&
-                                    widget.nivel > (widget.dificuldade * 10))) {
+                                if ((widget.difficulty > 0 &&
+                                    widget.nivel > (widget.difficulty * 10))) {
                                   widget.nivelMaestria++;
                                   widget.nivel = 0;
                                 }
@@ -113,8 +113,8 @@ class _TaskState extends State<Task> {
                       width: 200,
                       child: LinearProgressIndicator(
                         color: Colors.white,
-                        value: widget.dificuldade > 0
-                            ? (widget.nivel / widget.dificuldade) / 10
+                        value: widget.difficulty > 0
+                            ? (widget.nivel / widget.difficulty) / 10
                             : 1,
                       ),
                     ),
