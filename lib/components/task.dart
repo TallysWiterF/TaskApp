@@ -76,8 +76,7 @@ class _TaskState extends State<Task> {
                               setState(() {
                                 nivel++;
                                 if ((widget.dificuldade > 0 &&
-                                        nivel > widget.dificuldade * 10) ||
-                                    nivel > 10) {
+                                    nivel > (widget.dificuldade * 10))) {
                                   nivelMaestria++;
                                   nivel = 0;
                                 }
@@ -116,7 +115,7 @@ class _TaskState extends State<Task> {
                     padding: const EdgeInsets.all(12),
                     child: Text("Nível: $nivel",
                         style:
-                            const TextStyle(color: Colors.white, fontSize: 17)),
+                            const TextStyle(color: Colors.white, fontSize: 16)),
                   ),
                 ],
               )
