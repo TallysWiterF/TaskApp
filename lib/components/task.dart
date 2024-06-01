@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:task_app/components/difficulty.dart';
+import 'package:task_app/data/task_dao.dart';
 
 class Task extends StatefulWidget {
   final String name;
   final String image;
   final int difficulty;
-  Task(this.name, this.image, this.difficulty, {super.key});
+  int level;
+  int mastery = 0;
 
-  int nivel = 0;
-  int nivelMaestria = 0;
+  Task(this.name, this.image, this.difficulty, this.level, this.mastery,
+      {super.key});
 
   @override
   State<Task> createState() => _TaskState();
@@ -25,7 +27,7 @@ class _TaskState extends State<Task> {
         children: [
           Container(
             decoration: BoxDecoration(
-                color: getMaestriaColor(widget.nivelMaestria),
+                color: getMaestriaColor(widget.mastery),
                 borderRadius: BorderRadius.circular(4)),
             height: 140,
           ),
@@ -80,15 +82,39 @@ class _TaskState extends State<Task> {
                         height: 52,
                         width: 52,
                         child: ElevatedButton(
+                            onLongPress: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: const Text('Deletar'),
+                                    content: const Text(
+                                        'Tem certeza que deseja deletar essa tarefa?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'Cancel'),
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          TaskDao().delete(widget.name);
+                                          Navigator.pop(context, 'OK');
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                             onPressed: () {
                               setState(() {
-                                widget.nivel++;
+                                widget.level++;
                                 if ((widget.difficulty > 0 &&
-                                    widget.nivel > (widget.difficulty * 10))) {
-                                  widget.nivelMaestria++;
-                                  widget.nivel = 0;
+                                    widget.level > (widget.difficulty * 10))) {
+                                  widget.mastery++;
+                                  widget.level = 0;
                                 }
                               });
+                              TaskDao().save(widget);
                             },
                             child: const Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,14 +140,14 @@ class _TaskState extends State<Task> {
                       child: LinearProgressIndicator(
                         color: Colors.white,
                         value: widget.difficulty > 0
-                            ? (widget.nivel / widget.difficulty) / 10
+                            ? (widget.level / widget.difficulty) / 10
                             : 1,
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Text("Nível: ${widget.nivel}",
+                    child: Text("Nível: ${widget.level}",
                         style:
                             const TextStyle(color: Colors.white, fontSize: 16)),
                   ),
@@ -135,8 +161,8 @@ class _TaskState extends State<Task> {
   }
 }
 
-Color getMaestriaColor(int nivelMaestria) {
-  switch (nivelMaestria) {
+Color getMaestriaColor(int mastery) {
+  switch (mastery) {
     case 0:
       return Colors.blue;
     case 1:
