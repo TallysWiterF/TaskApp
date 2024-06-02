@@ -15,7 +15,7 @@ class _FormScreenState extends State<FormScreen> {
 
   bool valueValidator(String? value) => value != null && value.isEmpty;
   bool difficultyValidator(String? value) =>
-      valueValidator(value) && (int.parse(value!) > 5 || int.parse(value) < 1);
+      valueValidator(value) || (int.parse(value!) > 5 || int.parse(value) < 1);
 
   TextEditingController nameController = TextEditingController();
   TextEditingController difficultyController = TextEditingController();
